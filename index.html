@@ -1,0 +1,269 @@
+<div id="root"></div>
+<style>
+  :root{
+    --bg:#0a0a0b;
+    --bg-alt:#151517;
+    --card-line:#28282c;
+    --str:#e8e8ea;
+    --dur:#6e7480;
+    --accent:#c9c9cd;
+    --error:#c9756c;
+    --text:#f4f3f1;
+    --text-dim:#84848a;
+  }
+  *{box-sizing:border-box;}
+  html, body{
+    background:var(--bg);
+    margin:0;
+    min-height:100%;
+  }
+  #root{
+    background:
+      radial-gradient(circle at 12% 0%, rgba(255,255,255,.07), transparent 45%),
+      radial-gradient(circle at 100% 0%, rgba(255,255,255,.04), transparent 50%),
+      var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    padding:40px 22px 64px;
+    min-height:100vh;
+    width:100%;
+  }
+  .wrap{max-width:960px;margin:0 auto;}
+
+  h1{
+    font-size:clamp(38px,7vw,60px);
+    font-weight:800;
+    letter-spacing:.01em;
+    text-transform:uppercase;
+    margin:0 0 28px;
+    line-height:.98;
+    background:linear-gradient(135deg, #ffffff 0%, #cfcfd3 45%, #8c8c92 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+
+  .rules{
+    display:flex;gap:22px;margin-bottom:36px;flex-wrap:wrap;
+  }
+  .rule{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:13px;color:var(--text-dim);
+    display:flex;align-items:center;gap:8px;
+  }
+  .rule b{color:var(--text);font-weight:600;}
+  .rule::before{
+    content:"";
+    width:6px;height:6px;
+    border-radius:50%;
+    display:inline-block;
+  }
+  .rule.str-r::before{background:var(--str);}
+  .rule.dur-r::before{background:var(--dur);}
+
+  .input-row{
+    display:flex;gap:12px;align-items:stretch;margin-bottom:8px;
+    flex-wrap:wrap;
+  }
+  .input-row input{
+    flex:1;min-width:220px;
+    background:transparent;
+    border:1px solid var(--card-line);
+    color:var(--text);
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:20px;
+    padding:14px 16px;
+    border-radius:6px;
+    outline:none;
+    transition:border-color .15s ease;
+  }
+  .input-row input:focus{border-color:var(--accent);}
+  .input-row input::placeholder{color:var(--text-dim);}
+  .go{
+    background:var(--str);
+    color:#0e0e10;
+    border:none;
+    font-weight:800;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    font-size:14px;
+    padding:0 26px;
+    border-radius:6px;
+    cursor:pointer;
+    box-shadow:0 0 0 0 rgba(225,75,65,0);
+    transition:filter .15s ease, transform .1s ease, box-shadow .2s ease;
+  }
+  .go:hover{filter:brightness(1.12);box-shadow:0 4px 18px -4px rgba(225,75,65,.55);}
+  .go:active{transform:scale(.98);}
+  .err{color:var(--error);font-size:13px;font-family:ui-monospace,monospace;min-height:18px;margin:6px 0 20px;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:16px;
+    margin-top:18px;
+  }
+
+  .card{
+    position:relative;
+    background:var(--bg-alt);
+    border:1px solid var(--card-line);
+    border-left:2px solid var(--card-accent);
+    border-radius:8px;
+    padding:20px 22px;
+    opacity:0;
+    transform:translateY(8px);
+    animation:rise .45s ease forwards;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .card:hover{
+    transform:translateY(-2px);
+    border-color:#34343b;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .card{animation:none;opacity:1;transform:none;}
+  }
+  @keyframes rise{to{opacity:1;transform:translateY(0);}}
+
+  .card h3{
+    font-size:23px;
+    text-transform:uppercase;
+    margin:0 0 16px;
+    letter-spacing:-.01em;
+  }
+
+  .bar{
+    height:9px;
+    border-radius:5px;
+    overflow:hidden;
+    display:flex;
+    background:var(--card-line);
+    margin-bottom:16px;
+  }
+  .bar-str{background:var(--str);height:100%;transition:width .6s ease;}
+  .bar-dur{background:var(--dur);height:100%;transition:width .6s ease;}
+
+  .stat-row{
+    display:flex;justify-content:space-between;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:13px;
+    margin-bottom:4px;
+  }
+  .stat-row .k{color:var(--text-dim);}
+  .stat-row.str .v{color:var(--str);font-weight:700;}
+  .stat-row.dur .v{color:var(--dur);font-weight:700;}
+
+  .divider{height:1px;background:var(--card-line);margin:14px 0;}
+
+  .out-row{
+    display:flex;justify-content:space-between;
+    font-size:14px;margin-bottom:5px;
+  }
+  .out-row .k{color:var(--text-dim);}
+  .out-row .v{font-weight:700;font-family:ui-monospace,monospace;}
+
+  .empty{
+    color:var(--text-dim);
+    font-family:ui-monospace,monospace;
+    font-size:13px;
+    padding:40px 0;
+    text-align:center;
+    border:1px dashed var(--card-line);
+    border-radius:10px;
+    margin-top:18px;
+  }
+</style>
+<script>
+(function(){
+  const HP_PER_POINT = 5;
+  const DMG_PER_POINT = 0.5;
+  const BASE_HP = 100;
+  const BASE_DMG = 100;
+
+  const BUILDS = [
+    { name:"Tank",         strPct:0.40 },
+    { name:"Brawler",      strPct:0.55 },
+    { name:"Balanced",     strPct:0.666 },
+    { name:"Bruiser",      strPct:0.72 },
+    { name:"Glass Cannon", strPct:0.85 }
+  ];
+
+  const root = document.getElementById('root');
+  root.innerHTML = `
+    <div class="wrap">
+      <h1>BONTEN</h1>
+
+      <div class="rules">
+        <div class="rule str-r">+<b>0.5 damage</b> per Strength point</div>
+        <div class="rule dur-r">+<b>5 max HP</b> per Durability point</div>
+      </div>
+
+      <div class="input-row">
+        <input id="points" type="text" inputmode="numeric" placeholder="Total stat points, e.g. 3003" />
+        <button class="go" id="go">Generate builds</button>
+      </div>
+      <div class="err" id="err"></div>
+
+      <div id="output"></div>
+    </div>
+  `;
+
+  const input = document.getElementById('points');
+  const err = document.getElementById('err');
+  const output = document.getElementById('output');
+
+  function fmt(n){ return Math.round(n).toLocaleString('en-US'); }
+
+  function render(total){
+    output.innerHTML = '<div class="grid">' + BUILDS.map(b => {
+      const str = Math.round(total * b.strPct);
+      const dur = total - str;
+      const hp = dur * HP_PER_POINT + BASE_HP;
+      const dmg = str * DMG_PER_POINT + BASE_DMG;
+      const strPctDisplay = (str / total * 100).toFixed(1);
+      return `
+        <div class="card" style="--card-accent: color-mix(in srgb, var(--str) ${strPctDisplay}%, var(--dur));">
+          <h3>${b.name}</h3>
+          <div class="bar">
+            <div class="bar-str" style="width:${strPctDisplay}%"></div>
+            <div class="bar-dur" style="width:${(100-strPctDisplay)}%"></div>
+          </div>
+          <div class="stat-row str"><span class="k">Strength</span><span class="v">${fmt(str)}</span></div>
+          <div class="stat-row dur"><span class="k">Durability</span><span class="v">${fmt(dur)}</span></div>
+          <div class="divider"></div>
+          <div class="out-row"><span class="k">Max HP</span><span class="v">${fmt(hp)}</span></div>
+          <div class="out-row"><span class="k">M1 Damage</span><span class="v">${fmt(dmg)}</span></div>
+        </div>
+      `;
+    }).join('') + '</div>';
+  }
+
+  function showEmpty(){
+    output.innerHTML = '<div class="empty">Enter your stat points above and generate builds.</div>';
+  }
+
+  function handleGenerate(){
+    const raw = input.value.replace(/,/g,'').trim();
+    const total = parseInt(raw, 10);
+    if(!raw || isNaN(total) || total <= 0){
+      err.textContent = 'Enter a whole number greater than 0.';
+      showEmpty();
+      return;
+    }
+    if(total > 100000000){
+      err.textContent = 'That number is too large — try something more realistic.';
+      showEmpty();
+      return;
+    }
+    err.textContent = '';
+    render(total);
+  }
+
+  document.getElementById('go').addEventListener('click', handleGenerate);
+  input.addEventListener('keydown', function(e){
+    if(e.key === 'Enter') handleGenerate();
+  });
+
+  showEmpty();
+})();
+</script>
