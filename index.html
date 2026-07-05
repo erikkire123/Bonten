@@ -1,5 +1,3 @@
-
-
 <html>
 <head>
   <title>𝗕𝗼𝗻𝘁𝗲𝗻 | 梵天ぼんてん</title>
@@ -208,11 +206,15 @@
   const BASE_DMG = 100;
 
   const BUILDS = [
+    { name:"Fortress",     strPct:0.25 },
     { name:"Tank",         strPct:0.40 },
+    { name:"Hybrid",       strPct:0.50 },
     { name:"Brawler",      strPct:0.55 },
     { name:"Balanced",     strPct:0.666 },
     { name:"Bruiser",      strPct:0.72 },
-    { name:"Glass Cannon", strPct:0.85 }
+    { name:"Duelist",      strPct:0.78 },
+    { name:"Glass Cannon", strPct:0.85 },
+    { name:"Berserker",    strPct:0.93 }
   ];
 
   const root = document.getElementById('root');
@@ -294,3 +296,5 @@
   showEmpty();
 })();
 </script>
+</body>
+</html>
